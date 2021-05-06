@@ -70,11 +70,14 @@ namespace ApplicationCore.Auth
         {
             string id = user.Id;
             string userName = user.UserName;
+            string name = user.Name;
+
 
             var identity = GenerateClaimsIdentity(id, userName);
             var claims = new[]
             {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
+                 new Claim("name", name),
                  new Claim("roles", roles.IsNullOrEmpty() ? "" : String.Join(",", roles)),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
